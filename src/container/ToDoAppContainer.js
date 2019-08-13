@@ -5,22 +5,44 @@ class ToDoAppContainer extends Component {
     constructor(){
         super();
         this.state = {
-            isStriked: false,
+            // isStriked: false,
         }
     }
 
-    strikeShow = () => {
-        this.setState({isStriked: !this.state.isStriked});
+     componentWillMount = () => {
+        fetch('http://localhost:3000/tasks/')
+            .then(response => response.json())
+            .then(result => {
+                var arr = result.map(item => item.isStriked)
+                this.setState({...this.state, data: arr})
+            })
+            // .then(result => this.setState({...this.state, data: result}))
+            .catch(err => console.log(err));
     }
+
+    // strikeShow = () => {
+    //     this.setState({isStriked: !this.state.isStriked});
+    // componentWillMount = () => {
+    //     fetch('http://localhost:3000/tasks/', {
+    //         method: 'post',
+    //         headers: {
+    //             'Accept': 'application/json, text/plain, */*',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({isStriked: this.props.isStriked})
+    //         }).then(res=>res.json())
+    //         .then(res => console.log(res));
+    // }
+    // }
 
     render() {
         const strike = () => {
-            if (this.state.isStriked) {
+            if (this.props.isStriked) {
                 return (
                     <>
                     <div className="section__row">
                     <div className="section__items section__items--click">{this.props.data}</div>
-                    <div><button className="section__btn__complete" onClick={this.strikeShow}>Undo</button></div>
+                    <div><button className="section__btn__complete" onClick={this.props.strikeShowFunc}>Undo</button></div>
                     <div><button className="section__btn__delete" onClick={this.props.deleteItemFunc}>Delete</button></div>
                     </div>
                     </>
@@ -30,7 +52,7 @@ class ToDoAppContainer extends Component {
                     <>
                     <div className="section__row">
                     <div className="section__items">{this.props.data}</div>
-                    <div><button className="section__btn__complete" onClick={this.strikeShow}>Complete</button></div>
+                    <div><button className="section__btn__complete" onClick={this.props.strikeShowFunc}>Complete</button></div>
                     <div><button className="section__btn__delete" onClick={this.props.deleteItemFunc}>Delete</button></div>
                     </div>
                     </>
@@ -39,8 +61,6 @@ class ToDoAppContainer extends Component {
         }
         return(
            <>
-    
-                {/* <div className="section__items">{this.props.data}}</div> */}
                 {strike()}
            </>
         );

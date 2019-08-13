@@ -10,6 +10,12 @@ class ToDoApp extends Component {
         data: [],
         nameTask: '',
         searchTask: '',
+        isStriked: false,
+    }
+
+    strikeShow = () => {
+        this.setState({isStriked: !this.state.isStriked});
+        console.log(this.state.isStriked)
     }
 
     componentWillMount = () => {
@@ -44,7 +50,7 @@ class ToDoApp extends Component {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({nameTask: this.state.nameTask})
+            body: JSON.stringify({nameTask: this.state.nameTask, isStriked: this.state.isStriked})
             }).then(res=>res.json())
             .then(res => console.log(res));
     }
@@ -60,9 +66,9 @@ class ToDoApp extends Component {
     }
     
     render(){
-        const filteredSearch = this.state.data.filter(task => {
-                return task.toLowerCase().includes(this.state.searchTask.toLowerCase());
-            });
+        // const filteredSearch = this.state.data.filter(task => {
+        //         return task.toLowerCase().includes(this.state.searchTask.toLowerCase());
+        //     });
         return(
             <>
             <header>
@@ -129,10 +135,11 @@ class ToDoApp extends Component {
                     </div>
 
                     <div className="section__column">
-                        {filteredSearch.map((item, index) => {
+                        {this.state.data.map((item, index) => {
                             return(
                                 <ToDoAppContainer 
-                                    // completeItemFunc={() => this.completeItem(index)} 
+                                    isStriked={this.state.isStriked}
+                                    strikeShowFunc={() => this.strikeShow()}
                                     deleteItemFunc={() => this.deleteItem(index)}
                                     key={index}
                                     data={item}         

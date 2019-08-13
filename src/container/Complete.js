@@ -11,16 +11,13 @@ class Complete extends Component {
         }
     }
 
-   
     handleSearchChange = (event) => {
         this.setState({searchTask: event.target.value})
     }
 
-
     deleteItem = (index) => {
         let dataItem =this.state.data;
-        dataItem.splice(index, 1);
-        
+        dataItem.splice(index, 1); 
         this.setState({data: dataItem});
     }
     

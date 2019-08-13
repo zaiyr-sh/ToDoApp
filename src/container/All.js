@@ -11,7 +11,6 @@ class All extends Component {
             searchTask: '',
     }
 
-
     componentWillMount = () => {
         fetch('http://localhost:3000/tasks/')
         .then(response => response.json())
@@ -23,16 +22,15 @@ class All extends Component {
         .catch(err => console.log(err));
     }
 
-   
     handleSearchChange = (event) => {
         this.setState({searchTask: event.target.value})
     }
 
     
     render(){
-        const filteredSearch = this.state.data.filter(task => {
-                return task.toLowerCase().includes(this.state.searchTask.toLowerCase());
-            });
+        // const filteredSearch = this.state.data.filter(task => {
+        //         return task.toLowerCase().includes(this.state.searchTask.toLowerCase());
+        //     });
         return(
             <>
             <header>
@@ -45,8 +43,6 @@ class All extends Component {
                             
                         <div className="intro__search">
                             <p className="intro__paragraph">All Your Tasks</p>
-                            
-                            
                         </div>
                     </div>
                 </div>
@@ -81,7 +77,7 @@ class All extends Component {
                     </div>
 
                     <div className="section__column">   
-                        {filteredSearch.map((item, index) => {
+                        {this.state.data.map((item, index) => {
                             return(
                                 <AllContainer
                                     key={index}

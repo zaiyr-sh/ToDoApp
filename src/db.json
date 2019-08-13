@@ -1,20 +1,9 @@
 {
   "tasks": [
     {
-      "nameTask": "xcxc",
+      "nameTask": "Task 1",
+      "isStriked": false,
       "id": 1
-    },
-    {
-      "nameTask": "xcxc",
-      "id": 2
-    },
-    {
-      "nameTask": "xcxc",
-      "id": 3
-    },
-    {
-      "nameTask": "xxcc",
-      "id": 4
     }
   ]
 }
