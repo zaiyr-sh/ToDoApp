@@ -10,20 +10,41 @@ class ToDoApp extends Component {
         data: [],
         nameTask: '',
         searchTask: '',
-        isStriked: false,
     }
 
-    strikeShow = () => {
-        this.setState({isStriked: !this.state.isStriked});
-        console.log(this.state.isStriked)
+    strikeShow = (id) => {
+        let task = this.state.data.map((item, index) => {
+            console.log(this.state.data)
+            if (item.id === id) {
+                item.isStriked = !item.isStriked
+                console.log(item.isStriked)
+                return item
+            } else {
+                return item
+            }
+        })
+        // let arr = this.state.data;
+        // arr.push({ data: task})
+        // this.setState({...this.state, data: arr});
+
+        fetch('http://localhost:3000/tasks/1', {
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            method: 'PUT',
+            body: JSON.stringify({...this.state.data, isStriked: task })
+            }).then(res=>res.json())
+            .then(res => console.log(res));
+        
+        
+        // this.setState({...this.state, data: task})
     }
 
     componentWillMount = () => {
         fetch('http://localhost:3000/tasks/')
             .then(response => response.json())
             .then(result => {
-                var arr = result.map(item => item.nameTask)
-                this.setState({...this.state, data: arr})
+                // console.log(result)
+                // var arr = result.map(item => item.nameTask)
+                this.setState({...this.state, data: result})
             })
             // .then(result => this.setState({...this.state, data: result}))
             .catch(err => console.log(err));
@@ -40,7 +61,8 @@ class ToDoApp extends Component {
     handleClick = () => {
         let arr = this.state.data;
         // let someText = this.state.nameTask;
-        arr.push(this.state.nameTask)
+        arr.push({ nameTask: this.state.nameTask, isStriked: false })
+        console.log(arr     )
         this.setState({...this.state, data: arr});
         // console.log(arr)
 
@@ -50,7 +72,7 @@ class ToDoApp extends Component {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({nameTask: this.state.nameTask, isStriked: this.state.isStriked})
+            body: JSON.stringify({nameTask: this.state.nameTask, isStriked: false})
             }).then(res=>res.json())
             .then(res => console.log(res));
     }
@@ -122,7 +144,6 @@ class ToDoApp extends Component {
                                     <span className="ring"></span>
                                     <span className="ring"></span>
                                 </div>
-
                                 <form className="login-form" action="#" method="post">					
                                     <input type="text" name="country"  
                                     value={this.state.searchTask} 
@@ -131,15 +152,12 @@ class ToDoApp extends Component {
                                 </form>
 					        </div>
 				        </div>
-
                     </div>
-
                     <div className="section__column">
                         {this.state.data.map((item, index) => {
                             return(
                                 <ToDoAppContainer 
-                                    isStriked={this.state.isStriked}
-                                    strikeShowFunc={() => this.strikeShow()}
+                                    strikeShowFunc={this.strikeShow}
                                     deleteItemFunc={() => this.deleteItem(index)}
                                     key={index}
                                     data={item}         
@@ -149,23 +167,17 @@ class ToDoApp extends Component {
                     </div> 
     
                 </div>
-
             </section>
-
             <footer className="footer">
                 <div className="container">
                     <div className="footer__icon"><img alt="img" src="../container/images/cosmic_js.png"></img></div>
                     <div className="footer__title">Proudly powered by Cosmic JS</div>
                 </div>
             </footer>
-
             </>
   
         );
     }
-
     
-
 }
-
 export default ToDoApp;

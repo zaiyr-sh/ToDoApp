@@ -37,12 +37,12 @@ class ToDoAppContainer extends Component {
 
     render() {
         const strike = () => {
-            if (this.props.isStriked) {
+            if (this.props.data.isStriked) {
                 return (
                     <>
                     <div className="section__row">
-                    <div className="section__items section__items--click">{this.props.data}</div>
-                    <div><button className="section__btn__complete" onClick={this.props.strikeShowFunc}>Undo</button></div>
+                    <div className="section__items section__items--click">{this.props.data.id}</div>
+                    <div><button className="section__btn__complete" onClick={() => this.props.strikeShowFunc(this.props.data.id)}>Undo</button></div>
                     <div><button className="section__btn__delete" onClick={this.props.deleteItemFunc}>Delete</button></div>
                     </div>
                     </>
@@ -51,8 +51,8 @@ class ToDoAppContainer extends Component {
                 return (
                     <>
                     <div className="section__row">
-                    <div className="section__items">{this.props.data}</div>
-                    <div><button className="section__btn__complete" onClick={this.props.strikeShowFunc}>Complete</button></div>
+                    <div className="section__items">{this.props.data.id}</div>
+                    <div><button className="section__btn__complete" onClick={() => this.props.strikeShowFunc(this.props.data.id)}>Complete</button></div>
                     <div><button className="section__btn__delete" onClick={this.props.deleteItemFunc}>Delete</button></div>
                     </div>
                     </>
