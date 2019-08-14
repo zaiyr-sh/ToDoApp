@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ToDoAppContainer from '../container/ToDoAppContainer';
+import ToDoApp from '../components/ToDoApp';
 
 class Complete extends Component {
      constructor(){
@@ -11,22 +12,28 @@ class Complete extends Component {
         }
     }
 
+    componentWillMount = () => {
+        fetch('http://localhost:3000/tasks/')
+        .then(response => response.json())
+        .then(result => {
+        var arr = result.map(item => item.nameTask)
+        this.setState({...this.state, data: arr})
+        })
+        // .then(result => this.setState({...this.state, data: result}))
+        .catch(err => console.log(err));
+    }
+
     handleSearchChange = (event) => {
         this.setState({searchTask: event.target.value})
     }
 
-    deleteItem = (index) => {
-        let dataItem =this.state.data;
-        dataItem.splice(index, 1); 
-        this.setState({data: dataItem});
-    }
     
     render(){
-        const filteredSearch = this.state.data.filter (
-            (task) => {
-                return task.toLowerCase().includes(this.state.searchTask.toLowerCase());
-            }
-        );
+        // const filteredSearch = this.state.data.filter (
+        //     (task) => {
+        //         return task.toLowerCase().includes(this.state.searchTask.toLowerCase());
+        //     }
+        // );
 
         return(
             <>
@@ -75,16 +82,12 @@ class Complete extends Component {
                     </div>
 
                     <div className="section__tasks">   
-                        {filteredSearch.map((item, index) => {
-                            return(
-                                <ToDoAppContainer 
-                                    // completeItemFunc={() => this.completeItem(index)} 
-                                    deleteItemFunc={() => this.deleteItem(index)}
-                                    key={index}
-                                    data={item}         
-                                />
-
-                            );
+                        {this.state.data.map((item, index) => {
+                            console.log(this.state.data)
+                            if(this.props.isStriked === false)
+                                return(
+                                    this.props.data
+                                );
                         })}
                     </div> 
     

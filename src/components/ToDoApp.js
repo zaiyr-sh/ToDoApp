@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import './ToDoApp.css';
 import ToDoAppContainer from '../container/ToDoAppContainer';
+import Complete from '../container/Complete';
 // import App from '../App'
 // import All from '../container/All'
 
@@ -12,39 +13,13 @@ class ToDoApp extends Component {
         searchTask: '',
     }
 
-    strikeShow = (id) => {
-        let task = this.state.data.map((item, index) => {
-            console.log(this.state.data)
-            if (item.id === id) {
-                item.isStriked = !item.isStriked
-                console.log(item.isStriked)
-                return item
-            } else {
-                return item
-            }
-        })
-        // let arr = this.state.data;
-        // arr.push({ data: task})
-        // this.setState({...this.state, data: arr});
-
-        fetch('http://localhost:3000/tasks/1', {
-            headers: { "Content-Type": "application/json; charset=utf-8" },
-            method: 'PUT',
-            body: JSON.stringify({...this.state.data, isStriked: task })
-            }).then(res=>res.json())
-            .then(res => console.log(res));
-        
-        
-        // this.setState({...this.state, data: task})
-    }
-
     componentWillMount = () => {
         fetch('http://localhost:3000/tasks/')
             .then(response => response.json())
             .then(result => {
-                // console.log(result)
-                // var arr = result.map(item => item.nameTask)
-                this.setState({...this.state, data: result})
+                var arr = result.map(item => item.nameTask)
+                console.log(arr)
+                this.setState({...this.state, data: arr})
             })
             // .then(result => this.setState({...this.state, data: result}))
             .catch(err => console.log(err));
@@ -61,8 +36,7 @@ class ToDoApp extends Component {
     handleClick = () => {
         let arr = this.state.data;
         // let someText = this.state.nameTask;
-        arr.push({ nameTask: this.state.nameTask, isStriked: false })
-        console.log(arr     )
+        arr.push(this.state.nameTask)
         this.setState({...this.state, data: arr});
         // console.log(arr)
 
@@ -72,7 +46,7 @@ class ToDoApp extends Component {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({nameTask: this.state.nameTask, isStriked: false})
+            body: JSON.stringify({nameTask: this.state.nameTask, isStrked: false})
             }).then(res=>res.json())
             .then(res => console.log(res));
     }
@@ -155,12 +129,14 @@ class ToDoApp extends Component {
                     </div>
                     <div className="section__column">
                         {this.state.data.map((item, index) => {
+                            console.log(item)
+                            console.log(this.state.data)
                             return(
-                                <ToDoAppContainer 
-                                    strikeShowFunc={this.strikeShow}
+                                
+                                <ToDoAppContainer
                                     deleteItemFunc={() => this.deleteItem(index)}
                                     key={index}
-                                    data={item}         
+                                    data={item}      
                                 />
                             );
                         })}

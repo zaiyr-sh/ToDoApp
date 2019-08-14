@@ -1,48 +1,38 @@
 import React, { Component } from 'react';
-// import ToDoApp from '../components/ToDoApp';
+import ToDoApp from '../components/ToDoApp';
+import Complete from '../container/ToDoAppContainer';
 
 class ToDoAppContainer extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
-            // isStriked: false,
+            isStriked: false,
         }
     }
 
-     componentWillMount = () => {
-        fetch('http://localhost:3000/tasks/')
-            .then(response => response.json())
-            .then(result => {
-                var arr = result.map(item => item.isStriked)
-                this.setState({...this.state, data: arr})
-            })
-            // .then(result => this.setState({...this.state, data: result}))
-            .catch(err => console.log(err));
-    }
+    strikeShow = () => {
+        // let changeStriked = this.props.data;
+        // console.log(changeStriked)
+        this.setState({isStriked: !this.state.isStriked});
 
-    // strikeShow = () => {
-    //     this.setState({isStriked: !this.state.isStriked});
-    // componentWillMount = () => {
-    //     fetch('http://localhost:3000/tasks/', {
-    //         method: 'post',
-    //         headers: {
-    //             'Accept': 'application/json, text/plain, */*',
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({isStriked: this.props.isStriked})
-    //         }).then(res=>res.json())
-    //         .then(res => console.log(res));
-    // }
-    // }
+        // let data = { ...this.props.nameTask}
+        // console.log(data)
+        fetch('http://localhost:3000/tasks/1', {
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            method: 'PUT',
+            body: JSON.stringify({nameTask: this.props.data, isStriked: this.state.isStriked })
+            }).then(res=>res.json())
+            .then(res => console.log(res));
+    }
 
     render() {
         const strike = () => {
-            if (this.props.data.isStriked) {
+            if (this.state.isStriked) {
                 return (
                     <>
                     <div className="section__row">
-                    <div className="section__items section__items--click">{this.props.data.id}</div>
-                    <div><button className="section__btn__complete" onClick={() => this.props.strikeShowFunc(this.props.data.id)}>Undo</button></div>
+                    <div className="section__items section__items--click">{this.props.data}</div>
+                    <div><button className="section__btn__complete" onClick={this.strikeShow}>Undo</button></div>
                     <div><button className="section__btn__delete" onClick={this.props.deleteItemFunc}>Delete</button></div>
                     </div>
                     </>
@@ -51,8 +41,8 @@ class ToDoAppContainer extends Component {
                 return (
                     <>
                     <div className="section__row">
-                    <div className="section__items">{this.props.data.id}</div>
-                    <div><button className="section__btn__complete" onClick={() => this.props.strikeShowFunc(this.props.data.id)}>Complete</button></div>
+                    <div className="section__items">{this.props.data}</div>
+                    <div><button className="section__btn__complete" onClick={this.strikeShow}>Complete</button></div>
                     <div><button className="section__btn__delete" onClick={this.props.deleteItemFunc}>Delete</button></div>
                     </div>
                     </>
@@ -61,6 +51,8 @@ class ToDoAppContainer extends Component {
         }
         return(
            <>
+    
+                {/* <div className="section__items">{this.props.data}}</div> */}
                 {strike()}
            </>
         );

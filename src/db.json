@@ -1,16 +1,8 @@
 {
   "tasks": [
     {
-      "0": {
-        "nameTask": "Task 1",
-        "isStriked": true
-      },
-      "isStriked": [
-        {
-          "nameTask": "Task 1",
-          "isStriked": true
-        }
-      ],
+      "nameTask": "Task 1",
+      "isStrked": false,
       "id": 1
     }
   ]
