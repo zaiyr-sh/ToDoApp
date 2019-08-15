@@ -13,11 +13,28 @@ class ToDoApp extends Component {
         searchTask: '',
     }
 
+    strikeShow = (index) => {
+        let dataStrike = this.state.data;
+        if (dataStrike[index].isStriked) {
+            dataStrike[index].isStriked = false;
+        } else {
+            dataStrike[index].isStriked = true;
+        }
+        this.setState([dataStrike]);
+        
+        fetch(`http://localhost:3000/tasks/${dataStrike[index].id}`, {
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            method: 'PUT',
+            body: JSON.stringify({nameTask: dataStrike[index].nameTask, isStriked: dataStrike[index].isStriked})
+            }).then(res=>res.json())
+            .then(res => console.log(res));
+    }
+
     componentWillMount = () => {
         fetch('http://localhost:3000/tasks/')
             .then(response => response.json())
             .then(result => {
-                var arr = result.map(item => item.nameTask)
+                var arr = result.map(item => item)
                 console.log(arr)
                 this.setState({...this.state, data: arr})
             })
@@ -46,7 +63,7 @@ class ToDoApp extends Component {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({nameTask: this.state.nameTask, isStrked: false})
+            body: JSON.stringify({nameTask: this.state.nameTask, isStriked: false})
             }).then(res=>res.json())
             .then(res => console.log(res));
     }
@@ -57,8 +74,16 @@ class ToDoApp extends Component {
 
     deleteItem = (index) => {
         let dataItem =this.state.data;
-        dataItem.splice(index, 1);      
+        dataItem.splice(index, 1); 
+
         this.setState({data: dataItem});
+
+        // fetch('http://localhost:3000/tasks/1', {
+        //     headers: { "Content-Type": "application/json; charset=utf-8" },
+        //     method: 'PUT',
+        //     body: JSON.stringify({data: dataItem})
+        //     }).then(res=>res.json())
+        //     .then(res => console.log(res));
     }
     
     render(){
@@ -134,6 +159,7 @@ class ToDoApp extends Component {
                             return(
                                 
                                 <ToDoAppContainer
+                                    strikeShowFunc= {() => this.strikeShow(index)}
                                     deleteItemFunc={() => this.deleteItem(index)}
                                     key={index}
                                     data={item}      

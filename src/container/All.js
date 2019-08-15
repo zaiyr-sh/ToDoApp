@@ -15,7 +15,7 @@ class All extends Component {
         fetch('http://localhost:3000/tasks/')
         .then(response => response.json())
         .then(result => {
-        var arr = result.map(item => item.nameTask)
+        var arr = result.map(item => item)
         this.setState({...this.state, data: arr})
         })
         // .then(result => this.setState({...this.state, data: result}))

@@ -16,7 +16,7 @@ class Complete extends Component {
         fetch('http://localhost:3000/tasks/')
         .then(response => response.json())
         .then(result => {
-        var arr = result.map(item => item.nameTask)
+        var arr = result.map(item => item)
         this.setState({...this.state, data: arr})
         })
         // .then(result => this.setState({...this.state, data: result}))
@@ -83,10 +83,10 @@ class Complete extends Component {
 
                     <div className="section__tasks">   
                         {this.state.data.map((item, index) => {
-                            console.log(this.state.data)
-                            if(this.props.isStriked === false)
+                            console.log(item.isStriked)
+                            if(item.isStriked === false)
                                 return(
-                                    this.props.data
+                                    item.nameTask
                                 );
                         })}
                     </div> 

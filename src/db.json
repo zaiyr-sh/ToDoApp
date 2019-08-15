@@ -1,9 +1,14 @@
 {
   "tasks": [
     {
-      "nameTask": "Task 1",
-      "isStrked": false,
+      "nameTask": "sdsd",
+      "isStriked": true,
       "id": 1
+    },
+    {
+      "nameTask": "zxzx",
+      "isStriked": false,
+      "id": 2
     }
   ]
 }
