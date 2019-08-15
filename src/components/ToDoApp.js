@@ -53,7 +53,7 @@ class ToDoApp extends Component {
     handleClick = () => {
         let arr = this.state.data;
         // let someText = this.state.nameTask;
-        arr.push(this.state.nameTask)
+        arr.push({nameTask: this.state.nameTask, isStriked: false})
         this.setState({...this.state, data: arr});
         // console.log(arr)
 
@@ -74,16 +74,15 @@ class ToDoApp extends Component {
 
     deleteItem = (index) => {
         let dataItem =this.state.data;
+        fetch(`http://localhost:3000/tasks/${dataItem[index].id}`, {
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            method: 'DELETE',
+            body: JSON.stringify({data: dataItem})
+            }).then(res=>res.json())
+            .then(res => console.log(res));
         dataItem.splice(index, 1); 
 
-        this.setState({data: dataItem});
-
-        // fetch('http://localhost:3000/tasks/1', {
-        //     headers: { "Content-Type": "application/json; charset=utf-8" },
-        //     method: 'PUT',
-        //     body: JSON.stringify({data: dataItem})
-        //     }).then(res=>res.json())
-        //     .then(res => console.log(res));
+        this.setState([dataItem]);
     }
     
     render(){
@@ -154,17 +153,27 @@ class ToDoApp extends Component {
                     </div>
                     <div className="section__column">
                         {this.state.data.map((item, index) => {
-                            console.log(item)
-                            console.log(this.state.data)
-                            return(
-                                
-                                <ToDoAppContainer
-                                    strikeShowFunc= {() => this.strikeShow(index)}
-                                    deleteItemFunc={() => this.deleteItem(index)}
-                                    key={index}
-                                    data={item}      
-                                />
-                            );
+                            if (item.nameTask === this.state.searchTask) {
+                                return(
+                                    
+                                    <ToDoAppContainer
+                                        strikeShowFunc= {() => this.strikeShow(index)}
+                                        deleteItemFunc={() => this.deleteItem(index)}
+                                        key={index}
+                                        data={item}      
+                                    />
+                                );
+                            } else if (this.state.searchTask === '') {
+                                return(
+                                    
+                                    <ToDoAppContainer
+                                        strikeShowFunc= {() => this.strikeShow(index)}
+                                        deleteItemFunc={() => this.deleteItem(index)}
+                                        key={index}
+                                        data={item}      
+                                    />
+                                );
+                            }
                         })}
                     </div> 
     

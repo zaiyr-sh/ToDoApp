@@ -1,14 +1,3 @@
 {
-  "tasks": [
-    {
-      "nameTask": "sdsd",
-      "isStriked": true,
-      "id": 1
-    },
-    {
-      "nameTask": "zxzx",
-      "isStriked": false,
-      "id": 2
-    }
-  ]
+  "tasks": []
 }

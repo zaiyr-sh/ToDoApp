@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import ToDoAppContainer from '../container/ToDoAppContainer';
 import ToDoApp from '../components/ToDoApp';
+import '../components/ToDoApp.css';
+
+import CompleteContainer from '../container/CompleteContainer';
 
 class Complete extends Component {
      constructor(){
@@ -81,12 +84,15 @@ class Complete extends Component {
 
                     </div>
 
-                    <div className="section__tasks">   
+                    <div className="section__column">   
                         {this.state.data.map((item, index) => {
                             console.log(item.isStriked)
                             if(item.isStriked === false)
                                 return(
-                                    item.nameTask
+                                    <CompleteContainer
+                                        key={index}
+                                        data={item}
+                                    />
                                 );
                         })}
                     </div> 

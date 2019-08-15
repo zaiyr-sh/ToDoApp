@@ -77,14 +77,27 @@ class All extends Component {
                     </div>
 
                     <div className="section__column">   
+                    
                         {this.state.data.map((item, index) => {
-                            return(
-                                <AllContainer
-                                    key={index}
-                                    data={item}
-                                />
-                            );
-                        })}
+                                if (item.nameTask === this.state.searchTask) {
+                                    return(
+                                        
+                                        <AllContainer
+                                            key={index}
+                                            data={item}
+                                        />    
+                                    );
+                                } else if (this.state.searchTask === '') {
+                                    return(
+                                        
+                                        <AllContainer
+                                            key={index}
+                                            data={item}
+                                        />    
+                                    );
+                                }
+                            })}
+                        
                     </div> 
     
                 </div>
