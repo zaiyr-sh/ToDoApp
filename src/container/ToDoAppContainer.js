@@ -23,7 +23,6 @@ class ToDoAppContainer extends Component {
                     <>
                     <div className="section__row">
                     <div className="section__items">{this.props.data.nameTask}</div>
-                    {console.log(this.props.data.nameTask)}
                     <div><button className="section__btn__complete" onClick={this.props.strikeShowFunc}>Complete</button></div>
                     <div><button className="section__btn__delete" onClick={this.props.deleteItemFunc}>Delete</button></div>
                     </div>

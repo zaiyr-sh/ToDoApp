@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import './ToDoApp.css';
 import ToDoAppContainer from '../container/ToDoAppContainer';
 import Complete from '../container/Complete';
-// import App from '../App'
-// import All from '../container/All'
 
 class ToDoApp extends Component {
     state = {
@@ -14,14 +12,15 @@ class ToDoApp extends Component {
     }
 
     strikeShow = (index) => {
+        console.log(this.state.data)
+        // не приходит id
         let dataStrike = this.state.data;
-        if (dataStrike[index].isStriked) {
-            dataStrike[index].isStriked = false;
-        } else {
-            dataStrike[index].isStriked = true;
-        }
+        if (dataStrike[index].isStriked) dataStrike[index].isStriked = false;
+        else dataStrike[index].isStriked = true;
         this.setState([dataStrike]);
         
+        console.log(dataStrike[index])
+        /* PUT in JSON server */
         fetch(`http://localhost:3000/tasks/${dataStrike[index].id}`, {
             headers: { "Content-Type": "application/json; charset=utf-8" },
             method: 'PUT',
@@ -30,16 +29,19 @@ class ToDoApp extends Component {
             .then(res => console.log(res));
     }
 
-    componentWillMount = () => {
-        fetch('http://localhost:3000/tasks/')
+    updataState = () => {
+         fetch('http://localhost:3000/tasks/')
             .then(response => response.json())
             .then(result => {
                 var arr = result.map(item => item)
-                console.log(arr)
                 this.setState({...this.state, data: arr})
             })
             // .then(result => this.setState({...this.state, data: result}))
             .catch(err => console.log(err));
+    }
+
+    componentWillMount = () => {
+        this.updataState();  
     }
 
     handleTaskChange = (event) => {
@@ -51,11 +53,13 @@ class ToDoApp extends Component {
     }
 
     handleClick = () => {
-        let arr = this.state.data;
+      
         // let someText = this.state.nameTask;
+        
+        // console.log(arr)
+        let arr = this.state.data;
         arr.push({nameTask: this.state.nameTask, isStriked: false})
         this.setState({...this.state, data: arr});
-        // console.log(arr)
 
         fetch('http://localhost:3000/tasks/', {
             method: 'post',
@@ -65,7 +69,12 @@ class ToDoApp extends Component {
             },
             body: JSON.stringify({nameTask: this.state.nameTask, isStriked: false})
             }).then(res=>res.json())
-            .then(res => console.log(res));
+            .then(res => console.log(res))
+            .then(res => this.updataState())
+
+        //  console.log(this.state.data.length)
+        // не сработала идея
+        
     }
 
     handleCleanClick = () => {

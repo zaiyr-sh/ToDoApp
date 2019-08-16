@@ -49,7 +49,7 @@ class Complete extends Component {
                         </div>
                             
                         <div className="intro__search">
-                            <p className="intro__paragraph">All Your Complete Tasks</p>
+                            <p className="intro__paragraph">All Your Incomplete Tasks</p>
                             
                             
                         </div>

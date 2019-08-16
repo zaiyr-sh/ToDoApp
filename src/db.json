@@ -1,3 +1,19 @@
 {
-  "tasks": []
+  "tasks": [
+    {
+      "nameTask": "Task 1",
+      "isStriked": false,
+      "id": 1
+    },
+    {
+      "nameTask": "Task 2",
+      "isStriked": false,
+      "id": 2
+    },
+    {
+      "nameTask": "Task 3",
+      "isStriked": false,
+      "id": 3
+    }
+  ]
 }
